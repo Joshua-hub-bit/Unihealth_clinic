@@ -1,0 +1,46 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_URL: http://localhost:10000
+      DB_CONNECTION: pgsql
+      DB_PGSQL_HOST: db
+      DB_PGSQL_PORT: 5432
+      DB_PGSQL_DATABASE: unihealth
+      DB_PGSQL_USERNAME: unihealth
+      DB_PGSQL_PASSWORD: ${DB_PASSWORD:-local_unihealth_password}
+    ports:
+      - "10000:10000"
+    volumes:
+      - unihealth_storage:/var/www/html/storage
+    command:
+      - sh
+      - -c
+      - php artisan migrate --force && exec apache2-foreground
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: unihealth
+      POSTGRES_USER: unihealth
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-local_unihealth_password}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U unihealth -d unihealth"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - unihealth_postgres:/var/lib/postgresql/data
+
+volumes:
+  unihealth_storage:
+  unihealth_postgres:
