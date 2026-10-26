@@ -1,0 +1,62 @@
+/.phpunit.cache
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/vendor
+.DS_Store
+__pycache__/
+*.py[cod]
+.env
+.env.backup
+.env.production
+.phpactor.json
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+auth.json
+npm-debug.log
+yarn-error.log
+/.fleet
+/.idea
+/.nova
+/.vscode
+/.zed
+
+# OS / Windows artifacts
+desktop.ini
+Thumbs.db
+
+# Local AI / IDE tooling (per-developer, not for the team)
+/.claude
+/.agents
+/.kiro
+/.ai
+/.mcp.json
+/opencode.json
+/boost.json
+/AGENTS.md
+/CLAUDE.md
+/null
+
+# Local screenshots
+/screenshoot
+/screenshots
+
+# Database build artifacts (auto-generated from the .sql source of truth)
+/database/unihealth_sunn_clinic.mysql.sql
+/database/*-mysql.sql
+
+# Local clinical datasets and compiled Blade views
+/dataset/
+/storage/framework/views/*.php
+
+# Local environment and potentially sensitive application data
+/.venv/
+/university_clinic_consultations_v2.csv
+/database/clinics_sunn.sql
+/storage/**
+!/storage/**/
+!/storage/**/.gitignore

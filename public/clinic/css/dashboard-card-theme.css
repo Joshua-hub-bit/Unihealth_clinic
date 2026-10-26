@@ -1,0 +1,273 @@
+body.dashboard-card-theme .uh-card,
+body.dashboard-card-theme .uh-stat-card,
+body.dashboard-card-theme .ad-kpi-card,
+body.dashboard-card-theme .ad-card,
+body.dashboard-card-theme .ad-chart-card,
+body.dashboard-card-theme .pm-metric-card,
+body.dashboard-card-theme .pm-trend-chart-card,
+body.dashboard-card-theme .pm-activity-card,
+body.dashboard-card-theme .pm-goal-card,
+body.dashboard-card-theme .ph-card,
+body.dashboard-card-theme .ph-stat-card,
+body.dashboard-card-theme .an-chart-card {
+    background-color: #FFFDF8;
+    border-color: #DED7CA;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .05);
+    transition: box-shadow .18s ease, transform .18s ease;
+}
+
+body.dashboard-card-theme #page-dashboard .uh-card,
+body.dashboard-card-theme #page-dashboard .uh-stat-card,
+body.dashboard-card-theme #page-dashboard .pm-metric-card,
+body.dashboard-card-theme #page-dashboard .pm-trend-chart-card,
+body.dashboard-card-theme #page-dashboard .pm-activity-card,
+body.dashboard-card-theme #page-dashboard .pm-goal-card,
+body.dashboard-card-theme #page-dashboard .an-chart-card {
+    background-color: #FFFDF8;
+    border-color: #DED7CA;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .05);
+}
+
+body.dashboard-card-theme .uh-stat-card:hover,
+body.dashboard-card-theme .ad-kpi-card:hover,
+body.dashboard-card-theme .ph-stat-card:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .09);
+    transform: translateY(-2px);
+}
+
+body.dashboard-card-theme .uh-content {
+    padding: clamp(16px, 1.8vw, 26px) clamp(16px, 2vw, 30px) 30px;
+}
+
+body.dashboard-card-theme #page-dashboard {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1600px;
+    margin-inline: auto;
+}
+
+body.dashboard-card-theme #page-dashboard .uh-stats-grid,
+body.dashboard-card-theme #page-dashboard .student-stat-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+body.dashboard-card-theme #page-dashboard .uh-stat-card {
+    min-width: 0;
+    min-height: 136px;
+    padding: 18px 20px 16px;
+}
+
+body.dashboard-card-theme #page-dashboard .student-dashboard-grid {
+    grid-template-columns: minmax(0, 1.6fr) minmax(270px, .9fr);
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+body.dashboard-card-theme #page-dashboard .student-panel {
+    min-width: 0;
+    padding: 18px 20px;
+}
+
+body.dashboard-card-theme #page-dashboard .ad-kpi-strip {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 172px), 1fr));
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+body.dashboard-card-theme #page-dashboard .ad-kpi-card {
+    min-width: 0;
+    min-height: 118px;
+    padding: 14px 16px 13px;
+}
+
+body.dashboard-card-theme #page-dashboard .ad-main-grid {
+    grid-template-columns: minmax(0, 1.8fr) minmax(280px, .9fr);
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+body.dashboard-card-theme #page-dashboard > .nh-pm-decision-card .nh-ds-insights {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+body.dashboard-card-theme #page-dashboard .ad-bottom-grid {
+    gap: 16px;
+}
+
+body.dashboard-card-theme #page-dashboard .ad-card {
+    min-width: 0;
+    padding: 18px 20px;
+}
+
+body.dashboard-card-theme #page-dashboard .ph-stat-strip {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+body.dashboard-card-theme #page-dashboard .ph-stat-card {
+    min-width: 0;
+    min-height: 112px;
+    padding: 15px 16px;
+}
+
+body.dashboard-card-theme #page-dashboard .ph-dash-grid {
+    grid-template-columns: minmax(0, 1.65fr) minmax(280px, .9fr);
+    gap: 16px;
+}
+
+body.dashboard-card-theme #page-dashboard .ph-dash-left,
+body.dashboard-card-theme #page-dashboard .ph-dash-right {
+    gap: 16px;
+}
+
+body.dashboard-card-theme #page-dashboard .ph-card {
+    min-width: 0;
+    padding: 16px 18px;
+}
+
+body.dashboard-card-theme #page-dashboard .uh-grid-2-1 {
+    grid-template-columns: minmax(0, 1.65fr) minmax(290px, .9fr);
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+body.dashboard-card-theme #page-dashboard .uh-card {
+    min-width: 0;
+    padding: 18px 20px;
+}
+
+body.dashboard-card-theme #page-dashboard .pm-metric-row {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+body.dashboard-card-theme #page-dashboard .pm-metric-card {
+    min-width: 0;
+    min-height: 112px;
+    padding: 15px 17px;
+}
+
+body.dashboard-card-theme #page-dashboard .pm-trend-row {
+    grid-template-columns: minmax(0, 1.55fr) minmax(270px, .9fr);
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+body.dashboard-card-theme #page-dashboard .nh-pm-trend-main-col {
+    width: 100%;
+    min-width: 0;
+    gap: 16px;
+}
+
+body.dashboard-card-theme #page-dashboard .nh-pm-trend-main-col > .pm-trend-chart-card,
+body.dashboard-card-theme #page-dashboard .nh-pm-trend-main-col > .nh-nurse-head-decision-card {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    align-self: stretch;
+}
+
+body.dashboard-card-theme #page-dashboard .nh-nurse-head-decision-card .nh-ds-insights {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+body.dashboard-card-theme.physician-dashboard .uh-main > #page-dashboard.active {
+    padding: clamp(18px, 2vw, 26px) clamp(16px, 2vw, 30px) 28px !important;
+}
+
+@media (max-width: 1100px) {
+    body.dashboard-card-theme #page-dashboard .ad-main-grid,
+    body.dashboard-card-theme #page-dashboard .ph-dash-grid,
+    body.dashboard-card-theme #page-dashboard .uh-grid-2-1,
+    body.dashboard-card-theme #page-dashboard .pm-trend-row {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+}
+
+@media (min-width: 1101px) {
+    body.dashboard-card-theme #page-dashboard > .nh-pm-decision-card:not(.nh-nurse-head-decision-card) .nh-ds-insights {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    body.dashboard-card-theme #page-dashboard .student-dashboard-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 960px) {
+    body.dashboard-card-theme #page-dashboard .ad-bottom-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    body.dashboard-card-theme #page-dashboard .nh-nurse-head-decision-card .nh-ds-insights {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    body.dashboard-card-theme .uh-content {
+        padding: 14px 12px 24px;
+    }
+
+    body.dashboard-card-theme #page-dashboard .uh-stats-grid,
+    body.dashboard-card-theme #page-dashboard .student-stat-grid,
+    body.dashboard-card-theme #page-dashboard .ad-kpi-strip,
+    body.dashboard-card-theme #page-dashboard .ph-stat-strip,
+    body.dashboard-card-theme #page-dashboard .pm-metric-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    body.dashboard-card-theme #page-dashboard .uh-stat-card,
+    body.dashboard-card-theme #page-dashboard .ad-kpi-card,
+    body.dashboard-card-theme #page-dashboard .ph-stat-card,
+    body.dashboard-card-theme #page-dashboard .pm-metric-card {
+        min-height: 108px;
+        padding: 13px 14px;
+    }
+
+    body.dashboard-card-theme #page-dashboard .student-panel,
+    body.dashboard-card-theme #page-dashboard .ad-card,
+    body.dashboard-card-theme #page-dashboard .ph-card,
+    body.dashboard-card-theme #page-dashboard .uh-card {
+        padding: 15px 14px;
+    }
+
+    body.dashboard-card-theme #page-dashboard .ad-bottom-grid {
+        gap: 12px;
+    }
+
+    body.dashboard-card-theme.physician-dashboard .uh-main > #page-dashboard.active {
+        padding: 18px 12px 24px !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.dashboard-card-theme .uh-card,
+    body.dashboard-card-theme .uh-stat-card,
+    body.dashboard-card-theme .ad-kpi-card,
+    body.dashboard-card-theme .ad-card,
+    body.dashboard-card-theme .ad-chart-card,
+    body.dashboard-card-theme .pm-metric-card,
+    body.dashboard-card-theme .pm-trend-chart-card,
+    body.dashboard-card-theme .pm-activity-card,
+    body.dashboard-card-theme .pm-goal-card,
+    body.dashboard-card-theme .ph-card,
+    body.dashboard-card-theme .ph-stat-card,
+    body.dashboard-card-theme .an-chart-card {
+        transition: none;
+    }
+
+    body.dashboard-card-theme .uh-stat-card:hover,
+    body.dashboard-card-theme .ad-kpi-card:hover,
+    body.dashboard-card-theme .ph-stat-card:hover {
+        transform: none;
+    }
+}

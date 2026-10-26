@@ -1,0 +1,182 @@
+.nurse-calendar-page { padding: 8px 16px 28px; }
+.nurse-calendar-intro {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    margin: 0 0 20px; padding: 22px 24px; border: 1px solid #dcebe0; border-radius: 18px;
+    background: linear-gradient(120deg, #f0faf3 0%, #fff 65%, #fff8e6 100%);
+}
+.nurse-calendar-eyebrow {
+    display: inline-flex; align-items: center; gap: 7px; margin-bottom: 6px;
+    color: #1a6b3a; font-size: 11px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase;
+}
+.nurse-calendar-intro h2 { color: #153c27; font-size: clamp(22px, 3vw, 30px); font-weight: 800; letter-spacing: -.03em; }
+.nurse-calendar-intro p { margin-top: 4px; color: #647568; font-size: 13px; }
+.nurse-calendar-refresh {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px;
+    padding: 0 14px; border: 1px solid #cfe1d3; border-radius: 11px; background: #fff;
+    color: #1a6b3a; font-weight: 700; cursor: pointer; transition: .18s ease;
+}
+.nurse-calendar-refresh:hover { border-color: #1a6b3a; background: #f4fbf5; transform: translateY(-1px); }
+.nurse-calendar-grid {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 16px;
+}
+.nurse-calendar-card {
+    min-width: 0; overflow: hidden; border: 1px solid #e2e9e4; border-radius: 18px;
+    background: #fff; box-shadow: 0 8px 28px rgba(23, 58, 36, .07);
+}
+.nurse-calendar-card-header {
+    display: flex; align-items: center; gap: 11px; min-height: 76px; padding: 14px 16px;
+    border-bottom: 1px solid #edf1ee; background: linear-gradient(110deg, #f5fbf6, #fff);
+}
+.nurse-calendar-card-provider .nurse-calendar-card-header { background: linear-gradient(110deg, #f3f8ff, #fff); }
+.nurse-calendar-card-icon {
+    display: grid; flex: 0 0 40px; width: 40px; height: 40px; place-items: center;
+    border-radius: 13px; background: #e6f4e9; color: #1a6b3a; font-size: 17px;
+}
+.nurse-calendar-card-provider .nurse-calendar-card-icon { background: #e9f1ff; color: #3465ad; }
+.nurse-calendar-card-header h3 { overflow: hidden; color: #20352a; font-size: 14px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
+.nurse-calendar-card-header p { margin-top: 4px; color: #7b8980; font-size: 11px; }
+.nurse-calendar-count {
+    display: inline-flex; align-items: center; justify-content: center; min-width: 30px; height: 28px;
+    margin-left: auto; padding: 0 8px; border-radius: 999px; background: #eaf5ec; color: #1a6b3a;
+    font-size: 12px; font-weight: 800;
+}
+.nurse-calendar-card-provider .nurse-calendar-count { background: #edf3ff; color: #3465ad; }
+.nurse-calendar-toolbar {
+    display: grid; grid-template-columns: 34px minmax(0, 1fr) 34px auto; align-items: center; gap: 6px;
+    padding: 13px 12px 10px;
+}
+.nurse-calendar-toolbar strong { overflow: hidden; color: #26372c; font-size: 14px; font-weight: 800; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
+.nurse-calendar-toolbar button {
+    display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px;
+    border: 1px solid #e6ece7; border-radius: 9px; background: #fff; color: #476252; cursor: pointer;
+}
+.nurse-calendar-toolbar button:hover { border-color: #a9cdb2; background: #f4faf5; color: #1a6b3a; }
+.nurse-calendar-toolbar .nurse-calendar-today { width: auto; padding: 0 9px; color: #1a6b3a; font-size: 11px; font-weight: 800; }
+.nurse-calendar-weekdays, .nurse-calendar-days {
+    display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); margin: 0 10px;
+}
+.nurse-calendar-weekdays { padding-bottom: 6px; color: #8a978e; font-size: 10px; font-weight: 800; text-align: center; text-transform: uppercase; }
+.nurse-calendar-days { overflow: hidden; border-top: 1px solid #edf1ee; border-left: 1px solid #edf1ee; border-radius: 10px; }
+.nurse-calendar-day {
+    position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0;
+    aspect-ratio: 1.18; padding: 6px 2px 3px; border: 0; border-right: 1px solid #edf1ee; border-bottom: 1px solid #edf1ee;
+    background: #fff; color: #33443a; cursor: pointer; transition: background .14s ease;
+}
+.nurse-calendar-day:hover { background: #f4faf5; }
+.nurse-calendar-day.is-outside { background: #fafbfa; color: #b8c0ba; }
+.nurse-calendar-day.is-today { background: #fbfdfb; }
+.nurse-calendar-day.is-today .nurse-calendar-day-number { color: #4f7458; font-weight: 800; box-shadow: inset 0 0 0 1px #cbd9ce; }
+.nurse-calendar-day.is-selected { z-index: 1; background: #f1f8f2; box-shadow: inset 0 0 0 2px #7cae85; }
+.nurse-calendar-day.is-selected.is-outside { background: #f3f8f3; }
+.nurse-calendar-day.is-selected.is-today { background: #f1f8f2; }
+.nurse-calendar-day.is-selected.is-today .nurse-calendar-day-number { color: #235d35; box-shadow: inset 0 0 0 1px #7cae85; }
+.nurse-calendar-day-number {
+    display: grid; width: 25px; height: 25px; flex: 0 0 25px; place-items: center;
+    border-radius: 50%; font-size: 11px; font-weight: 600;
+}
+.nurse-calendar-day-indicator {
+    display: grid; min-width: 20px; height: 18px; place-items: center; padding: 0 5px;
+    border: 1px solid #218044; border-radius: 999px; background: #218044; color: #fff;
+    box-shadow: 0 2px 5px rgba(24, 105, 53, .24); font-size: 10px; font-weight: 900; line-height: 1;
+}
+.nurse-calendar-card-provider .nurse-calendar-day-indicator {
+    border-color: #376bc0; background: #376bc0; color: #fff; box-shadow: 0 2px 5px rgba(49, 92, 164, .24);
+}
+.nurse-calendar-card-provider .nurse-calendar-day-indicator.is-empty { border-color: transparent; background: transparent; box-shadow: none; }
+.nurse-calendar-day-indicator.is-empty { visibility: hidden; }
+.nurse-calendar-day-indicator:not(.is-empty) { animation: nurse-calendar-indicator-in .22s ease-out both; }
+@keyframes nurse-calendar-indicator-in {
+    from { opacity: .55; transform: scale(.82); }
+    to { opacity: 1; transform: scale(1); }
+}
+.nurse-calendar-day.is-selected .nurse-calendar-day-indicator:not(.is-empty) {
+    border-color: #174f2b; background: #174f2b; box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(36, 111, 59, .2);
+}
+.nurse-calendar-card-provider .nurse-calendar-day.is-selected .nurse-calendar-day-indicator:not(.is-empty) {
+    border-color: #244f99; background: #244f99; box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(55, 107, 192, .2);
+}
+.nurse-calendar-legend {
+    display: flex; align-items: center; gap: 12px; min-height: 34px; padding: 7px 14px;
+    color: #69776d; font-size: 10px; font-weight: 600;
+}
+.nurse-calendar-legend > span { display: inline-flex; align-items: center; gap: 5px; }
+.nurse-calendar-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #32a05a; }
+.nurse-calendar-dot-physician { background: #517bc4; }
+.nurse-calendar-dot-dentist { background: #db9b29; }
+.nurse-calendar-events { min-height: 100px; padding: 12px 14px 15px; border-top: 1px solid #edf1ee; background: #fcfdfc; }
+.nurse-calendar-events-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 9px; }
+.nurse-calendar-events-heading strong { color: #26372c; font-size: 12px; font-weight: 800; }
+.nurse-calendar-events-heading span { color: #8a978e; font-size: 10px; }
+.nurse-calendar-event {
+    display: flex; align-items: center; gap: 9px; margin-top: 7px; padding: 9px 10px;
+    border: 1px solid #e7eee8; border-radius: 11px; background: #fff;
+}
+.nurse-calendar-event-marker { width: 4px; align-self: stretch; flex: 0 0 4px; border-radius: 8px; background: #32a05a; }
+.nurse-calendar-event.is-physician .nurse-calendar-event-marker { background: #517bc4; }
+.nurse-calendar-event.is-dentist .nurse-calendar-event-marker { background: #db9b29; }
+.nurse-calendar-event-content { min-width: 0; flex: 1; }
+.nurse-calendar-event-title { overflow: hidden; color: #2b3b30; font-size: 11px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
+.nurse-calendar-event-meta { overflow: hidden; margin-top: 3px; color: #77847b; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.nurse-calendar-event-time { flex: 0 0 auto; color: #476252; font-size: 10px; font-weight: 800; }
+.nurse-calendar-empty { padding: 15px 6px; color: #89958c; font-size: 11px; text-align: center; }
+.nurse-calendar-error { color: #a33b35; }
+.nurse-calendar-dialog {
+    width: min(520px, calc(100vw - 32px)); max-width: none; max-height: min(78vh, 620px);
+    margin: auto; padding: 0; overflow: auto; border: 1px solid #dce8df; border-radius: 20px;
+    background: #fff; color: #26372c; box-shadow: 0 24px 80px rgba(13, 35, 22, .28);
+}
+.nurse-calendar-dialog::backdrop { background: rgba(19, 37, 27, .52); backdrop-filter: blur(3px); }
+.nurse-calendar-dialog-header {
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+    padding: 20px 22px 16px; border-bottom: 1px solid #e8efe9;
+    background: linear-gradient(120deg, #f0faf3, #fff 78%);
+}
+.nurse-calendar-dialog-header .nurse-calendar-eyebrow { margin-bottom: 5px; }
+.nurse-calendar-dialog-header h2 { color: #193b27; font-size: 20px; font-weight: 850; }
+.nurse-calendar-dialog-header p { margin-top: 5px; color: #68776c; font-size: 12px; font-weight: 650; }
+.nurse-calendar-dialog-close {
+    display: grid; flex: 0 0 34px; width: 34px; height: 34px; place-items: center;
+    border: 1px solid #dfe9e1; border-radius: 10px; background: #fff; color: #526257; cursor: pointer;
+}
+.nurse-calendar-dialog-close:hover { border-color: #a9cdb2; background: #f4faf5; color: #1a6b3a; }
+.nurse-calendar-dialog-events { padding: 14px 18px 18px; }
+.nurse-calendar-dialog-events .nurse-calendar-event { margin-top: 8px; padding: 12px; }
+.nurse-calendar-dialog-events .nurse-calendar-event-title { font-size: 13px; }
+.nurse-calendar-dialog-events .nurse-calendar-event-meta { font-size: 11px; }
+.nurse-calendar-dialog-events .nurse-calendar-event-time { font-size: 12px; }
+.nurse-calendar-dialog-events .nurse-calendar-empty { padding: 26px 10px; font-size: 13px; }
+@media (max-width: 700px) {
+    .nurse-calendar-page { padding-right: 8px; padding-left: 8px; }
+    .nurse-calendar-grid { gap: 8px; }
+    .nurse-calendar-intro { margin-bottom: 10px; padding: 15px; }
+    .nurse-calendar-card-header { gap: 7px; min-height: 65px; padding: 9px 8px; }
+    .nurse-calendar-card-icon { flex-basis: 31px; width: 31px; height: 31px; border-radius: 10px; font-size: 13px; }
+    .nurse-calendar-card-header h3 { font-size: 11px; }
+    .nurse-calendar-card-header p { font-size: 9px; }
+    .nurse-calendar-count { min-width: 23px; height: 23px; padding: 0 5px; font-size: 10px; }
+    .nurse-calendar-toolbar { grid-template-columns: 27px minmax(0, 1fr) 27px auto; gap: 3px; padding: 9px 5px 8px; }
+    .nurse-calendar-toolbar button { width: 26px; height: 27px; }
+    .nurse-calendar-toolbar .nurse-calendar-today { width: auto; padding: 0 5px; font-size: 9px; }
+    .nurse-calendar-toolbar strong { font-size: 11px; }
+    .nurse-calendar-weekdays, .nurse-calendar-days { margin-right: 5px; margin-left: 5px; }
+    .nurse-calendar-weekdays { font-size: 8px; }
+    .nurse-calendar-day { aspect-ratio: .9; gap: 1px; padding: 3px 0; }
+    .nurse-calendar-day-number { width: 20px; height: 20px; flex-basis: 20px; font-size: 9px; }
+    .nurse-calendar-day-indicator { min-width: 17px; height: 15px; padding: 0 3px; font-size: 8px; }
+    .nurse-calendar-legend { gap: 6px; padding-right: 8px; padding-left: 8px; font-size: 8px; }
+    .nurse-calendar-events { min-height: 86px; padding: 9px 8px 11px; }
+    .nurse-calendar-event { gap: 6px; padding: 7px 6px; }
+    .nurse-calendar-event-title { font-size: 9px; }
+    .nurse-calendar-event-meta, .nurse-calendar-event-time { font-size: 8px; }
+    .nurse-calendar-dialog-header { padding: 17px 16px 13px; }
+    .nurse-calendar-dialog-events { padding: 12px 12px 15px; }
+}
+@media (max-width: 380px) {
+    .nurse-calendar-intro { align-items: flex-start; }
+    .nurse-calendar-intro p { font-size: 11px; }
+    .nurse-calendar-refresh { min-height: 34px; padding: 0 9px; font-size: 11px; }
+    .nurse-calendar-refresh span { display: none; }
+    .nurse-calendar-card-header h3 { font-size: 10px; }
+    .nurse-calendar-card-header p { font-size: 8px; }
+    .nurse-calendar-card-icon { display: none; }
+}

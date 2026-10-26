@@ -1,0 +1,584 @@
+================================================================================
+  SUNN CLINIC SYSTEM — COMPLETE DOCUMENTATION
+  State University of Northern Negros (SUNN)
+  Medical and Dental Services Office
+================================================================================
+
+Last Updated : August 7, 2026
+Prepared by  : Kiro AI (Development Assistant)
+Project Name : SUNN Clinic Information System
+Version      : 3.0.0
+
+
+================================================================================
+  TABLE OF CONTENTS
+================================================================================
+
+  1.  System Overview
+  2.  Technologies & Software Installed
+  3.  Python Libraries Used (requirements.txt)
+  4.  Frontend Libraries (CDN, no installation needed)
+  5.  Project Folder Structure
+  6.  Database
+  7.  User Roles & Access
+  8.  Features by Dashboard
+  9.  How the System Works (Architecture)
+  10. How to Run the System
+  11. Environment Configuration (.env)
+  12. Key API Endpoints
+  13. Security Measures
+
+
+================================================================================
+  1. SYSTEM OVERVIEW
+================================================================================
+
+The SUNN Clinic Information System is a web-based clinic management platform
+built for the State University of Northern Negros Medical and Dental Services
+Office. It replaces manual paper-based processes with a fully digital system.
+
+The system handles:
+  - Student health record management (Personal Health Record / PHR)
+  - Nurse and physician workflow (consultations, forms, certificates)
+  - Admin oversight (staff management, statistics, reports)
+  - Medical forms and certificates (Medical Certificate, X-Ray Request,
+    Consultation Record, Referral, Prescriptions, Dental, Lactation, etc.)
+  - Multi-campus support (Old Sagay, Sagay Main, Laga-an, Escalante)
+  - Appointment scheduling
+  - Clinic visit logging
+  - Medication tracking
+  - Inventory management
+  - Audit logging
+
+
+================================================================================
+  2. TECHNOLOGIES & SOFTWARE INSTALLED
+================================================================================
+
+  SOFTWARE              VERSION       PURPOSE
+  ─────────────────     ──────────    ──────────────────────────────────────────
+  Python                3.14.6        Backend runtime — runs the entire server
+  
+  PostgreSQL            17.5          Database server — stores all clinic data
+                                      (students, staff, health records,
+                                      visits, appointments, inventory, etc.)
+  
+  uvicorn               0.32.1        ASGI web server — runs the FastAPI app
+                                      and serves the system on port 8000
+                                      Command: uvicorn main:app --port 8000 --reload
+  
+  Apache HTTP Server    (optional)    Web server for static files — proxies
+                                      /api/ requests to the FastAPI server.
+                                      Not required; uvicorn can serve alone.
+  
+  VS Code / Kiro IDE    (latest)      Code editor used for development
+  
+  Git                   (latest)      Version control for the project files
+
+  WHY PYTHON?
+    Python was chosen because it is easy to read, has excellent libraries for
+    web APIs (FastAPI), and integrates cleanly with PostgreSQL (psycopg).
+
+  WHY PostgreSQL?
+    PostgreSQL is a powerful, reliable, open-source relational database.
+    It supports complex queries, foreign keys, triggers, and JSON — all of
+    which this system uses. It also handles concurrent users well.
+
+  WHY uvicorn?
+    uvicorn is the recommended server for FastAPI. It supports async requests
+    (multiple users at the same time without slowing down), and has a --reload
+    mode for development that auto-restarts when code changes.
+
+
+================================================================================
+  3. PYTHON LIBRARIES USED  (from requirements.txt)
+================================================================================
+
+  LIBRARY               VERSION       WHY IT IS USED
+  ─────────────────     ──────────    ──────────────────────────────────────────
+  fastapi               0.115.5       The main web framework. Handles all API
+                                      routes (/api/admin.php, /api/nurse.php,
+                                      /api/student.php, /api/auth.php).
+                                      Provides automatic request validation,
+                                      JSON responses, and async support.
+
+  uvicorn               0.32.1        Runs the FastAPI application. Works like
+                                      Apache/Nginx but is designed for Python
+                                      async apps.
+
+  psycopg[binary]       3.3.4         PostgreSQL database driver. Lets Python
+                                      connect to and query the PostgreSQL
+                                      database. The [binary] version includes
+                                      pre-compiled C extensions for speed.
+
+  bcrypt                4.2.1         Password hashing. All staff and student
+                                      passwords are hashed with bcrypt before
+                                      being stored in the database. bcrypt is
+                                      slow by design — this makes brute-force
+                                      attacks much harder.
+
+  python-dotenv         1.0.1         Loads the .env file (DB_HOST, DB_PORT,
+                                      DB_NAME, DB_USER, DB_PASS) into the
+                                      environment so the database credentials
+                                      are not hardcoded in source code.
+
+  python-multipart      0.0.18        Allows FastAPI to accept file uploads
+                                      and multipart form data (e.g., profile
+                                      picture uploads).
+
+  starlette             0.41.3        The underlying framework FastAPI is built
+                                      on. Handles HTTP requests, middleware,
+                                      static file serving, and routing.
+                                      (Installed automatically with fastapi)
+
+  pydantic              2.13.4        Data validation library used by FastAPI
+                                      to validate request and response data
+                                      types automatically.
+                                      (Installed automatically with fastapi)
+
+  anyio / h11 / etc.    (auto)        Internal async/HTTP dependencies pulled
+                                      in automatically by uvicorn and starlette.
+
+
+================================================================================
+  4. FRONTEND LIBRARIES  (loaded from CDN, no installation needed)
+================================================================================
+
+  LIBRARY               SOURCE                    WHY IT IS USED
+  ─────────────────     ─────────────────────────  ──────────────────────────────
+  Font Awesome 6.5.0    cdnjs.cloudflare.com       Icons throughout the UI
+                                                   (user, calendar, heart, etc.)
+
+  Google Fonts          fonts.googleapis.com       Poppins font family used for
+  (Poppins)                                        all text across all pages
+
+  These are loaded via <link> tags in the HTML — nothing to install.
+  They require an internet connection to load on first visit (browsers
+  cache them after that).
+
+
+================================================================================
+  5. PROJECT FOLDER STRUCTURE
+================================================================================
+
+  SUNN-CLINIC SANDBOX - original/
+  │
+  ├── main.py                   Entry point. Starts the FastAPI app,
+  │                             registers all API routers, serves static files.
+  │
+  ├── requirements.txt          List of Python packages to install.
+  │
+  ├── .env                      Secret config (DB credentials). NOT in git.
+  │
+  ├── .htaccess                 Apache config to proxy /api/ to FastAPI.
+  │
+  ├── index.html                Landing page (home page with video background).
+  ├── login.html                Login page for all user types.
+  │
+  ├── api/                      Python backend (all server-side logic)
+  │   ├── __init__.py
+  │   ├── auth_routes.py        Login, registration, session endpoints
+  │   ├── admin_routes.py       Admin API (students, staff, stats, reports)
+  │   ├── nurse_routes.py       Nurse API (patients, visits, queue, forms)
+  │   ├── student_routes.py     Student API (PHR save/load, profile, meds)
+  │   └── common.py             Shared utilities (DB helpers, hashing,
+  │                             validation, audit logging, campus filter)
+  │
+  ├── db/
+  │   ├── database.py           Database connection pool (psycopg)
+  │   ├── sunn_clinic_postgres.sql   Full database schema + seed data
+  │   └── __init__.py
+  │
+  ├── pages/                    HTML dashboard pages
+  │   ├── admin-dashboard.html  Admin panel (full management view)
+  │   ├── nurse-dashboard.html  Nurse/staff panel (patients, forms, queue)
+  │   └── student-dashboard.html  Student panel (PHR, appointments, visits)
+  │
+  ├── css/                      Stylesheets
+  │   ├── admin-dashboard.css   Admin dashboard styles
+  │   ├── nurse-dashboard.css   Nurse dashboard styles (shared design tokens)
+  │   ├── nurse-forms.css       Medical forms / print layout styles
+  │   ├── student-dashboard.css Student dashboard styles
+  │   ├── dashboard.css         Shared dashboard base styles
+  │   ├── auth.css              Login/register page styles
+  │   └── landing.css           Landing page styles
+  │
+  ├── js/                       JavaScript (frontend logic)
+  │   ├── admin.js              Admin dashboard logic
+  │   ├── admin-extra.js        Admin helper functions (toast, modals, nav)
+  │   ├── nurse.js              Nurse dashboard logic (patients, queue, visits)
+  │   ├── nurse-forms.js        Medical form rendering (A4 preview, print)
+  │   ├── nurse-fill-fix.js     Nurse form auto-fill utilities
+  │   ├── nurse-typeahead.js    Typeahead / autocomplete for nurse forms
+  │   ├── student-dashboard.js  Student dashboard logic (PHR, alerts)
+  │   ├── student.js            Student supplementary logic
+  │   ├── auth.js               Login and registration form logic
+  │   ├── auth-guard.js         Blocks unauthenticated page access
+  │   ├── dashboard.js          Shared dashboard utilities
+  │   ├── forms.js              Form helpers
+  │   ├── staff.js              Staff-related utilities
+  │   ├── landing.js            Landing page animation/video logic
+  │   └── sunn-logo-b64.js      Base64-encoded SUNN logo for print documents
+  │
+  └── images/                   Static image assets
+      ├── sunn-logo.png         SUNN university logo
+      ├── BG-CLINIC.jpg         Clinic background image
+      ├── clinic.mp4            Landing page background video
+      ├── footer.png            Footer banner for printed forms
+      └── ...
+
+
+================================================================================
+  6. DATABASE
+================================================================================
+
+  Database System : PostgreSQL 17.5
+  Database Name   : sunn_uni_clinic
+  Host            : localhost
+  Port            : 5432
+  Default User    : postgres
+
+  TABLES AND WHAT THEY STORE:
+  ─────────────────────────────────────────────────────────────────────────────
+  campuses              The 4 SUNN campuses (Old Sagay, Sagay Main,
+                        Laga-an, Escalante)
+
+  students              All registered student accounts. Stores name,
+                        email, password hash, student ID, course/year,
+                        department, contact, address, sex, age, blood type,
+                        campus assignment, and profile picture.
+
+  staff                 All clinic staff accounts. Stores name, employee ID,
+                        email, password hash, role (nurse/physician/dentist/
+                        staff/admin), license number, contact, campus.
+
+  health_records        Personal Health Records (PHR) submitted by students.
+                        Contains full medical history: vital signs, symptoms,
+                        immunizations, menstrual health, emergency contacts,
+                        allergies, family history, blood type, signature.
+                        A student becomes a "Patient" once this is saved.
+
+  clinic_visits         Records of each time a student visits the clinic.
+                        Stores date, time, reason, symptoms, treatment,
+                        vital signs (BP, temp, pulse, RR, O2 sat, weight),
+                        attending nurse, disposition, and notes.
+
+  appointments          Appointment bookings. Stores student, date, time,
+                        service type, reason, status (pending/confirmed),
+                        and which staff member created it.
+
+  medications           Medication tracking per student. Stores drug name,
+                        dosage, schedule, purpose, consent status.
+
+  inventory             Clinic supply and medicine inventory. Tracks item name,
+                        category, quantity, unit, expiry date, supplier,
+                        batch number, minimum stock alert level.
+
+  forms_certificates    All medical forms issued to students (Medical
+                        Certificate, Consultation Record, X-Ray Request,
+                        Lab Request, Referral, Prescriptions, Dental
+                        Certificate, Lactation forms, etc.)
+
+  audit_log             Tracks every significant action in the system:
+                        who did what, when, from which IP address.
+                        Used for accountability and security review.
+
+  system_settings       Key-value store for system-wide configuration.
+
+  IMPORTANT RELATIONSHIP:
+    A student is classified as a PATIENT across all dashboards
+    once they successfully save their Personal Health Record (PHR).
+    This creates a row in the health_records table linked to their
+    student account via student_id (foreign key).
+
+
+================================================================================
+  7. USER ROLES & ACCESS
+================================================================================
+
+  ROLE          LOGIN PAGE    DASHBOARD               ACCESS LEVEL
+  ──────────    ──────────    ──────────────────────  ────────────────────────────
+  student       login.html    student-dashboard.html  Own profile, own PHR, own
+                                                      visits, own appointments,
+                                                      own medications, alerts.
+
+  nurse/staff   login.html    nurse-dashboard.html    All patients (students with
+                                                      PHR), clinic queue, visits,
+                                                      appointments, all forms &
+                                                      certificates, medical records.
+
+  physician     login.html    nurse-dashboard.html    Same as nurse.
+
+  dentist       login.html    nurse-dashboard.html    Same as nurse.
+
+  admin         login.html    admin-dashboard.html    Everything. Manages students,
+                                                      staff, campuses, inventory,
+                                                      reports, audit log, settings.
+                                                      Can add/delete staff accounts.
+
+
+================================================================================
+  8. FEATURES BY DASHBOARD
+================================================================================
+
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │  STUDENT DASHBOARD                                                       │
+  └─────────────────────────────────────────────────────────────────────────┘
+  - View clinic visit history
+  - Book and view appointments
+  - Track medications
+  - Fill and save Personal Health Record (PHR)
+    · Once saved, student status changes to "Patient" across all dashboards
+  - View health alerts generated from PHR data
+  - View and update profile
+  - Offline support — PHR saves to localStorage if server is unreachable
+
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │  NURSE / STAFF DASHBOARD                                                 │
+  └─────────────────────────────────────────────────────────────────────────┘
+  - Patient list (only students who submitted PHR appear here)
+  - Clinic queue management
+  - Log clinic visits (vitals, symptoms, treatment, disposition)
+  - Manage appointments
+  - Issue medical forms and certificates:
+      · Medical Certificate
+      · Consultation Record
+      · X-Ray Request
+      · Lab Request
+      · Referral Form
+      · Physician Prescription (Rx)
+      · Dentist Prescription
+      · Dental Certificate
+      · Lactating Mother Accommodation Form
+      · Breastfeeding Room User Agreement
+      · Other clearance and slip forms
+  - All forms render as live A4 preview and can be printed
+  - Load patient data by student ID or name into any form
+  - View medical records
+
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │  ADMIN DASHBOARD                                                         │
+  └─────────────────────────────────────────────────────────────────────────┘
+  - Dashboard statistics:
+      · Total Students registered
+      · Total Patients (students with saved PHR)
+      · Medical Records count
+      · Active Staff count
+      · Inventory items
+  - Manage Students (view, search, delete)
+  - Manage Staff (add with password, assign campus, delete)
+  - Manage Appointments
+  - View All Records (health records across all students/campuses)
+  - Inventory management (add, edit, track stock levels)
+  - Reports (visit trends, department distribution, reasons)
+  - Audit Log (full action history)
+  - Settings
+  - Filter all data by campus
+
+
+================================================================================
+  9. HOW THE SYSTEM WORKS (ARCHITECTURE)
+================================================================================
+
+  ┌──────────┐     HTTP/AJAX      ┌────────────────────┐     psycopg3
+  │ Browser  │ ──────────────── > │  FastAPI (Python)  │ ──────────────── >
+  │ (Chrome) │ < ──────────────── │  uvicorn port 8000 │ < ────────────────
+  └──────────┘    JSON response   └────────────────────┘    SQL queries
+                                                                   │
+                                                        ┌──────────────────┐
+                                                        │  PostgreSQL 17   │
+                                                        │  sunn_uni_clinic │
+                                                        └──────────────────┘
+
+  STEP-BY-STEP FLOW:
+
+  1. User opens browser and goes to http://127.0.0.1:8000
+     FastAPI serves index.html (landing page).
+
+  2. User clicks Login — browser loads login.html.
+
+  3. User enters credentials. JavaScript sends a POST request to
+     /api/auth.php?action=login with email + password.
+
+  4. FastAPI receives the request, queries PostgreSQL for the user,
+     checks the bcrypt password hash, and returns a JSON response
+     with user info (name, role, campus, etc.).
+
+  5. JavaScript stores the user info in sessionStorage and redirects
+     to the appropriate dashboard (admin, nurse, or student).
+
+  6. auth-guard.js runs on every dashboard page. If no valid session
+     is found in sessionStorage, it immediately redirects to login.
+
+  7. The dashboard JavaScript calls the API for data (students, patients,
+     stats, etc.). Each fetch goes to /api/admin.php, /api/nurse.php,
+     or /api/student.php with ?action=<action_name>.
+
+  8. FastAPI routes the action to the correct Python function, runs
+     the database query, and returns JSON. The JavaScript renders
+     the data in the UI.
+
+  PATIENT IDENTIFICATION FLOW:
+  ─────────────────────────────
+  Student registers  →  account created in `students` table (role='student')
+         │
+         ▼
+  Student fills and saves PHR  →  row created in `health_records` table
+         │
+         ▼
+  All dashboards now show this student as a "PATIENT":
+    - Nurse dashboard: student appears in the patient list
+    - Admin dashboard: "Patient" chip shown, Patients stat increments
+    - Student dashboard: "Patient" badge appears in greeting banner
+
+
+================================================================================
+  10. HOW TO RUN THE SYSTEM
+================================================================================
+
+  PREREQUISITES:
+    1. Python 3.11 or higher installed
+    2. PostgreSQL 17 installed and running
+    3. The sunn_uni_clinic database created and schema loaded
+
+  SETUP STEPS:
+
+  Step 1 — Create the database (run once):
+    Open pgAdmin or psql and run:
+      CREATE DATABASE sunn_uni_clinic;
+    Then run the full SQL file:
+      db/sunn_clinic_postgres.sql
+
+  Step 2 — Install Python dependencies:
+    Open a terminal in the project folder and run:
+      pip install -r requirements.txt
+
+  Step 3 — Configure the .env file:
+    Edit the .env file with your PostgreSQL credentials:
+      DB_HOST=localhost
+      DB_PORT=5432
+      DB_NAME=sunn_uni_clinic
+      DB_USER=postgres
+      DB_PASS=YourPasswordHere
+
+  Step 4 — Start the server:
+      uvicorn main:app --host 127.0.0.1 --port 8000 --reload
+
+  Step 5 — Open the system in a browser:
+      http://127.0.0.1:8000
+
+  DEFAULT LOGIN ACCOUNTS (from seed data):
+    Student  : student@uni.edu       / password123
+    Admin    : admin@sunn.edu.ph     / admin123
+    Nurse    : nurse@sunn.edu.ph     / nurse123
+
+
+================================================================================
+  11. ENVIRONMENT CONFIGURATION (.env)
+================================================================================
+
+  The .env file stores sensitive database connection details.
+  It is NOT committed to git (listed in .gitignore).
+
+  DB_HOST = localhost        Server where PostgreSQL is running
+  DB_PORT = 5432             Default PostgreSQL port
+  DB_NAME = sunn_uni_clinic  Name of the database
+  DB_USER = postgres         PostgreSQL username
+  DB_PASS = Admin            PostgreSQL password (change in production!)
+
+  The python-dotenv library reads this file at startup in db/database.py.
+
+
+================================================================================
+  12. KEY API ENDPOINTS
+================================================================================
+
+  All endpoints are at: http://127.0.0.1:8000/api/<file>.php?action=<action>
+
+  AUTH  (/api/auth.php)
+    login              POST   Authenticate user, return session data
+    register           POST   Register new student account
+    get_campuses       GET    List all active campuses
+
+  STUDENT  (/api/student.php)
+    save_health_record POST   Save/update student's PHR
+    get_health_record  GET    Load student's saved PHR
+    get_profile        GET    Get student profile data
+    update_profile     POST   Update student profile/password
+    get_visits         GET    Get student's clinic visit history
+    get_appointments   GET    Get student's appointments
+    get_medications    GET    Get student's medications
+
+  NURSE  (/api/nurse.php)
+    get_patients       GET    List all students who have a PHR (patients)
+    get_stats          GET    Dashboard counts (patients, visits, etc.)
+    save_visit         POST   Log a new clinic visit
+    get_visits         GET    Today's clinic visits
+    get_queue          GET    Current appointment/walk-in queue
+    get_forms          GET    List issued forms/certificates
+    create_form        POST   Issue a new form/certificate
+    print_form         POST   Mark a form as printed
+
+  ADMIN  (/api/admin.php)
+    get_stats          GET    Dashboard statistics
+    get_students       GET    List all students (includes has_health_record flag)
+    get_student        GET    Single student detail
+    delete_student     POST   Remove a student account
+    get_staff          GET    List all staff members
+    add_staff          POST   Create new staff account (with password)
+    delete_staff       POST   Remove a staff account
+    assign_campus      POST   Assign staff to a campus
+    get_campuses       GET    List campuses
+    get_inventory      GET    List inventory items
+    add_inventory      POST   Add inventory item
+    update_inventory   POST   Update inventory item
+    get_all_records    GET    All health records across all students
+    get_audit_log      GET    Security/action audit trail
+    get_report_stats   GET    Visit trends for reports
+
+
+================================================================================
+  13. SECURITY MEASURES
+================================================================================
+
+  PASSWORDS
+    - All passwords are hashed using bcrypt (cost factor 12)
+    - Passwords are never stored in plain text
+    - bcrypt is specifically designed to be slow to resist brute force
+
+  SESSION
+    - User session stored in browser sessionStorage (cleared on tab close)
+    - auth-guard.js checks session on every page load
+    - No session = immediate redirect to login
+
+  INPUT VALIDATION
+    - All text inputs are sanitized server-side (sanitize() function)
+    - SQL queries use parameterized placeholders (%s) — SQL injection
+      is not possible because user input is never embedded directly
+      in SQL strings
+    - Email addresses are validated with a regex before insertion
+
+  API RESPONSES
+    - All API responses include Cache-Control: no-store headers
+    - Frontend uses cache-busting timestamps (?_=<timestamp>) on requests
+    - This prevents browsers from showing stale data
+
+  FILE ACCESS
+    - .env file is blocked by Apache (.htaccess FilesMatch rule)
+    - .sql, .py, .log files are blocked from direct browser access
+    - Directory listing is disabled (Options -Indexes)
+
+  AUDIT LOG
+    - Every significant action (login, save record, add staff, delete,
+      print form, etc.) is recorded in the audit_log table with:
+        · user ID and type (student/staff/admin)
+        · action performed
+        · entity affected
+        · IP address
+        · user agent (browser info)
+        · timestamp
+
+
+================================================================================
+  END OF DOCUMENTATION
+================================================================================
