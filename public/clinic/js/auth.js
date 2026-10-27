@@ -292,10 +292,11 @@ function redirectDashboard(role, patientType) {
   switch (role) {
     case 'student': {
       const typeMap = {
-        faculty:    '/dashboard/faculty',
-        staff:      '/dashboard/staff',
+        instructor_faculty: '/dashboard/faculty',
+        faculty: '/dashboard/faculty',
+        instructor: '/dashboard/faculty',
+        staff: '/dashboard/staff',
         faculty_staff: '/dashboard/staff',
-        instructor: '/dashboard/instructor',
       };
       window.location.href = typeMap[patientType] || '/dashboard/student';
       break;

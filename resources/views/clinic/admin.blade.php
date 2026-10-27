@@ -274,8 +274,8 @@
         <button class="uh-nav-item" onclick="uhShowPage('patients',this)" data-title="Patient Information">
             <i class="fa fa-users"></i><span>Patient Information</span>
         </button>
-        <button class="uh-nav-item" onclick="uhShowPage('patient-accounts',this);adLoadPatientAccounts(1)" data-title="Faculty, Staff &amp; Instructors">
-            <i class="fa fa-user-group"></i><span>Faculty, Staff &amp; Instructors</span>
+        <button class="uh-nav-item" onclick="uhShowPage('patient-accounts',this);adLoadPatientAccounts(1)" data-title="Instructor / Faculty &amp; Staff">
+            <i class="fa fa-user-group"></i><span>Instructor / Faculty &amp; Staff</span>
         </button>
         <button class="uh-nav-item" onclick="uhShowPage('medical-records',this)" data-title="Medical Records">
             <i class="fa fa-file-medical"></i><span>Medical Records</span>
@@ -832,17 +832,17 @@
                 </div>
             </div>
 
-            <!-- -- PAGE: FACULTY, STAFF & INSTRUCTORS -->
+            <!-- -- PAGE: INSTRUCTOR / FACULTY & STAFF -->
             <div class="uh-page" id="page-patient-accounts">
                 <div class="uh-card">
                     <div class="uh-card-header">
-                        <div class="uh-card-title">Faculty, Staff &amp; Instructor Patient Accounts</div>
+                        <div class="uh-card-title">Instructor / Faculty &amp; Staff Patient Accounts</div>
                         <button type="button" class="uh-btn uh-btn-primary uh-btn-sm" onclick="adOpenPatientAccountForm()">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add Account
                         </button>
                     </div>
                     <div class="uh-table-toolbar">
-                        <input type="search" class="uh-table-search" data-uh-table-search placeholder="Search name, ID, department, or email..." autocomplete="off" aria-label="Search faculty, staff, and instructor accounts">
+                        <input type="search" class="uh-table-search" data-uh-table-search placeholder="Search name, ID, department, or email..." autocomplete="off" aria-label="Search instructor, faculty, and staff accounts">
                         <select id="ad-patient-accounts-status" class="uh-table-status-filter" aria-label="Filter patient account status" onchange="adPatientAccountsStatusChanged(this.value)">
                             <option value="active">Active accounts</option>
                             <option value="inactive">Inactive accounts</option>
@@ -1280,7 +1280,7 @@
     </div>
 </div>
 
-<!-- -- Faculty, staff, and instructor patient account modal -->
+<!-- -- Instructor / faculty and staff patient account modal -->
 <div id="ad-pa-modal" class="uh-modal-overlay hidden">
     <div class="uh-modal uh-modal-lg">
         <div class="uh-modal-header">
@@ -1292,8 +1292,9 @@
                 <div class="uh-form-group">
                     <label for="ad-pa-patient_type">Account type <span class="uh-text-danger">*</span></label>
                     <select id="ad-pa-patient_type" required>
-                        <option value="faculty_staff">Faculty / Staff</option>
-                        <option value="instructor">Instructor</option>
+                        <option value="" selected disabled>Select a category</option>
+                        <option value="instructor_faculty">Instructor / Faculty</option>
+                        <option value="staff">Staff</option>
                     </select>
                 </div>
                 <div class="uh-form-group">
@@ -2000,7 +2001,7 @@ function adLoadPatientAccounts(page) {
         }
 
         if (!accounts.length) {
-            tbody.innerHTML = uhNoData(8, 'No matching faculty, staff, or instructor accounts found.');
+            tbody.innerHTML = uhNoData(8, 'No matching instructor, faculty, or staff accounts found.');
         } else {
             tbody.innerHTML = accounts.map(function (account) {
                 var name = [account.first_name, account.middle_name, account.last_name].filter(Boolean).join(' ') || '—';
@@ -2053,9 +2054,13 @@ function adOpenPatientAccountForm(id) {
     document.getElementById('ad-pa-password-confirmation').required = !id;
 
     if (account) {
-        document.getElementById('ad-pa-patient_type').value = ['faculty', 'staff', 'faculty_staff'].includes(account.patient_type)
-            ? 'faculty_staff'
-            : 'instructor';
+        var categoryByType = {
+            instructor_faculty: 'instructor_faculty',
+            faculty: 'instructor_faculty',
+            instructor: 'instructor_faculty',
+            staff: 'staff'
+        };
+        document.getElementById('ad-pa-patient_type').value = categoryByType[account.patient_type] || '';
         document.getElementById('ad-pa-student_id').value = account.student_id || '';
         document.getElementById('ad-pa-student_id').disabled = true;
         document.getElementById('ad-pa-first_name').value = account.first_name || '';

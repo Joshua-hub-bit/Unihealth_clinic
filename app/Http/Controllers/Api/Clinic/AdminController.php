@@ -520,7 +520,7 @@ class AdminController extends Controller
             'email' => strtolower(trim((string) $request->input('email'))),
         ]);
         $data = $request->validate([
-            'patient_type' => ['required', 'string', Rule::in(['faculty_staff', 'faculty', 'staff', 'instructor'])],
+            'patient_type' => ['required', 'string', Rule::in(['instructor_faculty', 'staff'])],
             'student_id' => ['required', 'string', 'max:30', 'unique:students,student_id'],
             'first_name' => ['required', 'string', 'max:80'],
             'last_name' => ['required', 'string', 'max:80'],
@@ -562,7 +562,7 @@ class AdminController extends Controller
             $request->merge(['email' => strtolower(trim((string) $request->input('email')))]);
         }
         $data = $request->validate([
-            'patient_type' => ['sometimes', 'required', 'string', Rule::in(['faculty_staff', 'faculty', 'staff', 'instructor'])],
+            'patient_type' => ['sometimes', 'required', 'string', Rule::in(['instructor_faculty', 'staff'])],
             'first_name' => ['sometimes', 'required', 'string', 'max:80'],
             'last_name' => ['sometimes', 'required', 'string', 'max:80'],
             'middle_name' => ['sometimes', 'nullable', 'string', 'max:80'],

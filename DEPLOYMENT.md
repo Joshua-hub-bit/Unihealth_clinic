@@ -44,6 +44,16 @@ repository root, `.env`, or private storage to the web. Provision the database,
 HTTPS, persistent storage, and a process supervisor for queue workers before
 opening the application to users.
 
+## Patient category migration
+
+The patient account categories are Student, Instructor / Faculty, and Staff.
+The patient-category migration combines existing `faculty` and `instructor`
+values into `instructor_faculty`, while leaving `staff` unchanged. Existing
+`faculty_staff` rows are retained and shown in the admin patient-account list
+as requiring category review because that former combined value cannot be
+split reliably. An admin must edit each such account and assign the correct
+category.
+
 Start from the tracked `.env.example`, then set deployment-specific values in
 the host's secret/environment manager. In particular, use a persistent
 `APP_KEY`, `APP_ENV=production`, `APP_DEBUG=false`, the production `APP_URL`,

@@ -171,7 +171,13 @@ class Student extends Authenticatable
 
     public function scopeAdditionalPatientAccounts(Builder $query): Builder
     {
-        return $query->students()->whereIn('patient_type', ['faculty_staff', 'faculty', 'staff', 'instructor']);
+        return $query->students()->whereIn('patient_type', [
+            'instructor_faculty',
+            'staff',
+            'faculty_staff',
+            'faculty',
+            'instructor',
+        ]);
     }
 
     public function scopeForCampus(Builder $query, ?int $campusId): Builder

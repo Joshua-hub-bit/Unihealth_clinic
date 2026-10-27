@@ -719,7 +719,7 @@ function uhPopulateProfileForm(profile) {
 }
 
 function uhIsEmployeePatient(user) {
-    return ['faculty', 'faculty_staff', 'staff', 'instructor'].includes(user?.patientType)
+    return ['instructor_faculty', 'faculty', 'instructor', 'staff', 'faculty_staff'].includes(user?.patientType)
         || document.body?.dataset.clinicRole === 'employee';
 }
 
@@ -942,11 +942,12 @@ async function uhSaveProfile(event) {
 function uhRoleLabel(role, patientType) {
     if (role === 'student') {
         const typeMap = {
-            faculty:    'Faculty / Staff',
-            faculty_staff: 'Faculty / Staff',
-            staff:      'Faculty / Staff',
-            instructor: 'Instructor',
-            student:    'Patient / Student',
+            instructor_faculty: 'Instructor / Faculty',
+            faculty: 'Instructor / Faculty',
+            instructor: 'Instructor / Faculty',
+            staff: 'Staff',
+            faculty_staff: 'Category review required',
+            student: 'Student',
         };
         if (document.body?.dataset.clinicRole === 'employee' && !typeMap[patientType]) {
             return 'Employee';
@@ -966,16 +967,17 @@ function uhRoleLabel(role, patientType) {
 function uhPatientTypeLabel(patientType) {
     const labels = {
         student: 'Student',
-        faculty: 'Faculty / Staff',
-        faculty_staff: 'Faculty / Staff',
-        staff: 'Faculty / Staff',
-        instructor: 'Instructor',
+        instructor_faculty: 'Instructor / Faculty',
+        faculty: 'Instructor / Faculty',
+        instructor: 'Instructor / Faculty',
+        staff: 'Staff',
+        faculty_staff: 'Category review required',
     };
     return labels[patientType] || 'Patient type unavailable';
 }
 
 function uhPatientTypeBadge(patientType) {
-    const isEmployee = ['faculty', 'faculty_staff', 'staff', 'instructor'].includes(patientType);
+    const isEmployee = ['instructor_faculty', 'faculty', 'instructor', 'staff', 'faculty_staff'].includes(patientType);
     const isStudent = patientType === 'student';
     const category = isEmployee ? 'employee' : isStudent ? 'student' : 'unknown';
     return '<span class="uh-patient-type-badge uh-patient-type-badge--' + category + '">' +
