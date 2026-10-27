@@ -1,41 +1,5 @@
 # Deployment notes
 
-## Docker and Render
-
-The project includes a Docker image configured for Render's Docker web service.
-It builds the Vite assets, installs production Composer dependencies, runs
-Apache with Laravel's `public` directory as the document root, and listens on
-port `10000`. The image includes MySQL, PostgreSQL, and SQLite PDO drivers.
-
-For a local Docker test:
-
-1. Copy `.env.example` to `.env`.
-2. Generate an application key with `php artisan key:generate --show` and put
-   the output in `.env` as `APP_KEY`. Keep the key private.
-3. Run `docker compose up --build`.
-4. Open `http://localhost:10000`.
-
-The Compose configuration is for local testing and uses a local PostgreSQL
-container. It runs database migrations when the app container starts. Render
-deployments should use a separate managed database and run
-`php artisan migrate --force` as the service's pre-deploy command instead.
-
-For Render, create a Docker web service from this project and attach a managed
-PostgreSQL database. Set `APP_ENV=production`, `APP_DEBUG=false`, `APP_KEY` to
-a persistent secret, `APP_URL` to the Render HTTPS URL, and `DB_CONNECTION=pgsql`.
-Set `ASSET_URL` to the same HTTPS URL and use `/up` as the Render health check
-path.
-Render's PostgreSQL connection URL is available as `DATABASE_URL`; the image
-maps it to Laravel's `DB_URL` setting. Do not set `DB_URL` separately unless
-you intend to override that URL. Configure `SESSION_SECURE_COOKIE=true` for
-HTTPS. Keep all credentials and keys in Render's environment/secret settings,
-not in the repository.
-
-The container filesystem is ephemeral. Configure persistent external storage
-for uploaded files (for example, the S3-compatible disk supported by this
-application) before relying on attachments or other file uploads. The PHP
-image allows the existing 50 MB attachment limit and 52 MB request body.
-
 ## Production release checklist
 
 Use PHP 8.2 or newer and a database supported by Laravel. Point the web server's
